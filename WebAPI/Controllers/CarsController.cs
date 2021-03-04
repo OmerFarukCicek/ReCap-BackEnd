@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
             _carService = carService;
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public IActionResult Get()
         {
             var result = _carService.GetAll();
@@ -74,8 +74,6 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
-
 
         [HttpPost("add")]
         public IActionResult Add(Car car)
