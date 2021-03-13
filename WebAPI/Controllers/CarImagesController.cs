@@ -48,6 +48,7 @@ namespace WebAPI.Controllers
                 return BadRequest("Dosya Girilmedi.");
             }
         }
+
         [HttpPost("updateimage")]
         public IActionResult Update([FromForm] IFormFile files, [FromForm] int imageId)
         {
@@ -69,6 +70,7 @@ namespace WebAPI.Controllers
                 return BadRequest(ex);
             }
         }
+
         [HttpPost("deleteimage")]
         public IActionResult Delete([FromForm] int imageId)
         {
@@ -83,7 +85,8 @@ namespace WebAPI.Controllers
                 return BadRequest(ex);
             }
         }
-        [HttpPost("getbycarid")]
+
+        [HttpGet("getbycarid")]
         public IActionResult GetByCarId([FromForm] int carId)
         {
             try

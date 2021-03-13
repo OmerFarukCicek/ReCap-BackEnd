@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IColorService
+    public interface IBrandService
     {
-        IDataResult<List<Color>> GetAll();
+        IDataResult<List<Brand>> GetAll();
     }
 }

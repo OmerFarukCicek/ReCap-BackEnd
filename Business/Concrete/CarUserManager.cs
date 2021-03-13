@@ -11,31 +11,31 @@ namespace Business.Concrete
 {
     public class CarUserManager : ICarUserService
     {
-        ICarUserDal _userDal;
+        ICarUserDal _carUserDal;
         public CarUserManager(ICarUserDal userDal)
         {
-            _userDal = userDal;
+            _carUserDal = userDal;
         }
         public IResult Add(CarUser user)
         {
-            _userDal.Add(user);
+            _carUserDal.Add(user);
             return new SuccessResult();
         }
 
         public IResult Delete(CarUser user)
         {
-            _userDal.Delete(user);
+            _carUserDal.Delete(user);
             return new SuccessResult();
         }
 
         public IDataResult<List<CarUser>> GetAll()
         {
-            return new SuccessDataResult<List<CarUser>>(_userDal.GetAll());
+            return new SuccessDataResult<List<CarUser>>(_carUserDal.GetAll());
         }
 
         public IResult Update(CarUser user)
         {
-            _userDal.Update(user);
+            _carUserDal.Update(user);
             return new SuccessResult();
         }
     }
