@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -18,23 +17,26 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CarImagesController : ControllerBase
     {
-        public static IWebHostEnvironment _webHostEnviroment;
+        public static IWebHostEnvironment _webHostEnvironment;
         ICarImageService _carImageService;
 
         public CarImagesController(IWebHostEnvironment webHostEnvironment, ICarImageService carImageService)
         {
-            _webHostEnviroment = webHostEnvironment;
+            _webHostEnvironment = webHostEnvironment;
             _carImageService = carImageService;
         }
 
         [HttpPost("addimage")]
         public IActionResult Add([FromForm] IFormFile files, [FromForm] CarImage carImage)
         {
+            string path = _webHostEnvironment.WebRootPath + "\\uploads\\";
             try
             {
                 if (files.Length > 0)
                 {
-                    carImage.ImagePath = FileHelper.Add(files, "Resimler");
+                    string newPath = FileHelper.Add(files, "Resimler", path);
+                    string[] Array = newPath.Split(@"wwwroot\");
+                    carImage.ImagePath = Array[1].Replace(@"\", "/");
                     var result = _carImageService.Add(carImage);
                     return Ok(result);
                 }
@@ -45,10 +47,9 @@ namespace WebAPI.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Dosya Girilmedi.");
+                return BadRequest("Dosya Girilmedii");
             }
         }
-
         [HttpPost("updateimage")]
         public IActionResult Update([FromForm] IFormFile files, [FromForm] int imageId)
         {
@@ -70,7 +71,6 @@ namespace WebAPI.Controllers
                 return BadRequest(ex);
             }
         }
-
         [HttpPost("deleteimage")]
         public IActionResult Delete([FromForm] int imageId)
         {
@@ -85,14 +85,13 @@ namespace WebAPI.Controllers
                 return BadRequest(ex);
             }
         }
-
         [HttpGet("getbycarid")]
-        public IActionResult GetByCarId([FromForm] int carId)
+        public IActionResult GetByCarId(int carId)
         {
             try
             {
                 var result = _carImageService.GetByCarId(carId);
-                return Ok(result.Data);
+                return Ok(result);
             }
             catch (Exception)
             {
