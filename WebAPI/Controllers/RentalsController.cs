@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +14,24 @@ namespace WebAPI.Controllers
     public class RentalsController : ControllerBase
     {
         IRentalService _rentalService;
+        ICreditCardService _creditCardService;
 
-        public RentalsController(IRentalService brandService)
+        public RentalsController(IRentalService rentalService, ICreditCardService creditCardService)
         {
-            _rentalService = brandService;
+            _rentalService = rentalService;
+            _creditCardService = creditCardService;
+        }
+
+        [HttpPost("add")]
+        public IActionResult Add(Rental rental)
+        {
+                var result = _rentalService.Add(rental); 
+
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
         }
 
         [HttpGet("getall")]
@@ -34,6 +49,17 @@ namespace WebAPI.Controllers
         public IActionResult GetRentalDetails(int id)
         {
             var result = _rentalService.GetRentalDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getlastrental")]
+        public IActionResult GetLast(int carId)
+        {
+            var result = _rentalService.GetLastRentalOfCar(carId);
             if (result.Success)
             {
                 return Ok(result);

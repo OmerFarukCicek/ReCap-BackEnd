@@ -6,10 +6,9 @@ using System.Text;
 
 namespace Business.Abstract
 {
-    public interface IBrandService
+    public interface ICreditCardService
     {
-        IResult Update(Brand brand);
-        IResult Add(Brand brand);
-        IDataResult<List<Brand>> GetAll();
+        IResult Check(string cardNo);
+        IResult Add(CreditCard creditCard);
     }
 }
