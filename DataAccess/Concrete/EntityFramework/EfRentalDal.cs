@@ -20,7 +20,7 @@ namespace DataAccess.Concrete.EntityFramework
                              join c in context.Cars
                              on r.CarId equals c.Id
                              join cu in context.Customers
-                             on r.UserId equals cu.UserId
+                             on r.CustomerId equals cu.Id
                              join b in context.Brands
                              on c.BrandId equals b.BrandId
                              join u in context.CarUsers
@@ -29,8 +29,7 @@ namespace DataAccess.Concrete.EntityFramework
                              {
                                  RentalId = r.RentalId,
                                  BrandName = b.BrandName,
-                                 FirstName = u.FirstName,
-                                 LastName = u.LastName,
+                                 CompanyName = cu.CompanyName,
                                  RentDate = r.RentDate,
                                  ReturnDate = r.ReturnDate
                              };
